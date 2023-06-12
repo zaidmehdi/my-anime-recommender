@@ -2,7 +2,9 @@ import requests
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 
+
 class Recommender():
+
     def __init__(self, synopsis_sim, token, client) -> None:
         self.synopsis_sim = synopsis_sim
         self.token = token
@@ -12,6 +14,7 @@ class Recommender():
         data_list = []
         user_dict = {}
         url = f"https://api.myanimelist.net/v2/users/{user_name}/animelist?offset=0&sort=list_score&limit=100&fields=list_status'"
+
         try:
             i = 0
             done = False
@@ -47,27 +50,32 @@ class Recommender():
             user_data.replace_one({'_id':user_name}, user_dict)
         else:
             user_data.insert_one(user_dict)
+
         return user_dict
     
     def userlist_to_dataframe(self, user_dict):
         anime_id_list = []
         score_list = []
+
         for anime in user_dict['data']:
             id = anime['id']
             score = anime['score']
             anime_id_list.append(id)
             score_list.append(score)
         user_df = pd.DataFrame({'anime_id': anime_id_list, 'score': score_list})
+
         return user_df
 
     def get_user_favorite(self, user_df):
         max_score = user_df.score.max()
+
         if max_score >= 7:
             aux = user_df.loc[user_df['score'] == max_score]
             favorite_list = list(aux['anime_id'].values)
             del aux
         else:
             favorite_list = False
+
         return favorite_list
     
     def find_similar_animes(self, favorite_list):
@@ -81,15 +89,18 @@ class Recommender():
             anime_df = pd.DataFrame({'similarity': sim_scores})
             anime_df = anime_df[anime_df.similarity >= 0.1] #keeping only similarities above 0.1
             similar_animes[anime] = anime_df
+
         return similar_animes
     
     def filter_low_ratings(self, similar_animes):
         global df_animelist
+
         for anime in similar_animes:
             anime_df = similar_animes[anime]
             merged_df = pd.merge(anime_df, df_animelist['rating'], left_index=True, right_index=True)
             merged_df = merged_df[merged_df.rating >= 7]
             similar_animes[anime] = merged_df
+
         return similar_animes
     
     def filter_already_inlist(self, similar_animes, user_name):
@@ -97,6 +108,7 @@ class Recommender():
         dbname = self.client['MAL']
         user_data = dbname['userdata']
         response = user_data.find({'_id': user_name})
+
         for element in response:
             user_dict = element
 
@@ -112,11 +124,13 @@ class Recommender():
             anime_df = similar_animes[anime]
             filtered_df = anime_df.drop(anime_df.index[anime_df.index.isin(already_inlist_index)])
             filtered_animes[anime] = filtered_df
+
         return filtered_animes
 
     def select_top_10(self, filtered_animes):
         global df_animelist
         merged_df = pd.DataFrame()
+        
         for anime in filtered_animes:
             anime_df = filtered_animes[anime]
             merged_df = pd.concat([merged_df, anime_df])
