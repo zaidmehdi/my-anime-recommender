@@ -47,7 +47,7 @@ if __name__ == "__main__":
     animelist = dbname['animelist']
 
     df_animelist = create_df_animelist()
-    synopsis_sime = cosine_similarity(df_animelist)
+    synopsis_sim = cosine_similarity(df_animelist)
 
 
 
