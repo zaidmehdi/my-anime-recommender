@@ -5,10 +5,11 @@ from sklearn.preprocessing import MinMaxScaler
 
 class Recommender():
 
-    def __init__(self, synopsis_sim, token, client) -> None:
+    def __init__(self, synopsis_sim, token, client, df_animelist) -> None:
         self.synopsis_sim = synopsis_sim
         self.token = token
         self.client = client
+        self.df_animelist = df_animelist
 
     def get_user_data(self, user_name):
         data_list = []
@@ -79,8 +80,8 @@ class Recommender():
         return favorite_list
     
     def find_similar_animes(self, favorite_list):
-        global df_animelist
-        indices = pd.Series(df_animelist.index, index=df_animelist['id']).drop_duplicates()
+        # global df_animelist
+        indices = pd.Series(self.df_animelist.index, index=self.df_animelist['id']).drop_duplicates()
 
         similar_animes = {}
         for anime in favorite_list:
@@ -93,18 +94,18 @@ class Recommender():
         return similar_animes
     
     def filter_low_ratings(self, similar_animes):
-        global df_animelist
+        # global df_animelist
 
         for anime in similar_animes:
             anime_df = similar_animes[anime]
-            merged_df = pd.merge(anime_df, df_animelist['rating'], left_index=True, right_index=True)
+            merged_df = pd.merge(anime_df, self.df_animelist['rating'], left_index=True, right_index=True)
             merged_df = merged_df[merged_df.rating >= 7]
             similar_animes[anime] = merged_df
 
         return similar_animes
     
     def filter_already_inlist(self, similar_animes, user_name):
-        global df_animelist
+        # global df_animelist
         dbname = self.client['MAL']
         user_data = dbname['userdata']
         response = user_data.find({'_id': user_name})
@@ -116,7 +117,7 @@ class Recommender():
         for anime in user_dict['data']:
             already_inlist.append(anime['id'])
         
-        local_animelist = df_animelist[df_animelist['id'].isin(already_inlist)]
+        local_animelist = self.df_animelist[self.df_animelist['id'].isin(already_inlist)]
         already_inlist_index = local_animelist.index.tolist()
         
         filtered_animes = {}
@@ -128,7 +129,7 @@ class Recommender():
         return filtered_animes
 
     def select_top_10(self, filtered_animes):
-        global df_animelist
+        # global df_animelist
         merged_df = pd.DataFrame()
         
         for anime in filtered_animes:
@@ -147,7 +148,7 @@ class Recommender():
         #Transforming the index values into anime_id values.
         top_animes_id = []
         for index in top_animes:
-            anime_id = df_animelist.loc[index]['id']
+            anime_id = self.df_animelist.loc[index]['id']
             top_animes_id.append(anime_id)
 
         return top_animes_id
