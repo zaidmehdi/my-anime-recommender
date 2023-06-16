@@ -25,7 +25,6 @@ if __name__ == '__main__':
 
     anime_recommender = Recommender(synopsis_sim, mal_token, mongodb_client, df_animelist)
 
-
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)
@@ -45,12 +44,12 @@ if __name__ == '__main__':
 
         print(f'{username} said: "{user_message}" ({channel})') 
 
-        if user_message[0] == '!':
+        if user_message[0] == 'p':
             user_message = user_message[1:]
-            bot_response = get_response(user_message, anime_recommender)
+            bot_response = get_response(user_message, anime_recommender, mongodb_client)
             await send_messages(message, bot_response, is_private=True)
         else:
-            bot_response = get_response(user_message, anime_recommender)
+            bot_response = get_response(user_message, anime_recommender, mongodb_client)
             await send_messages(message, bot_response, False)
 
     client.run(discord_token)
