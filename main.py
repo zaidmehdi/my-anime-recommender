@@ -46,10 +46,10 @@ if __name__ == '__main__':
 
         if user_message[0] == 'p':
             user_message = user_message[1:]
-            bot_response = get_response(user_message, anime_recommender, mongodb_client)
-            await send_messages(message, bot_response, is_private=True)
+            bot_response, embed_list = get_response(user_message, anime_recommender, mongodb_client)
+            await send_messages(message, bot_response, embed_list, is_private=True)
         else:
-            bot_response = get_response(user_message, anime_recommender, mongodb_client)
-            await send_messages(message, bot_response, False)
+            bot_response, embed_list = get_response(user_message, anime_recommender, mongodb_client)
+            await send_messages(message, bot_response, embed_list, False)
 
     client.run(discord_token)
