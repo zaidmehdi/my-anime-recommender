@@ -34,17 +34,12 @@ def get_response(user_message : str, anime_recommender, mongodb_client):
                                    f"> **Number of episodes**: {anime_dict['num_episodes']}\n"),
                      colour= discord.Color.teal())
                 anime_embed.set_author(name = "MyAnimeRec",
-                                       icon_url = ("https://yt3.googleusercontent.com/"
-                                       "Ntsi7XsgokCIX3ljFAk40ll1Nesi3QqCDFwPTjVlg"
-                                       "lZuS0qocpOOH0vE0jtKCMBJTuO-gBbQ5A=s900-c-k-c0x00ffffff-no-rj"))
+                                       icon_url = ("https://e0.pxfuel.com/wallpapers"
+                                            "/186/745/desktop-wallpaper-luffy-laughing-"
+                                            "luffyriendo-onepiece-goldroger-smile.jpg"))
                 anime_embed.set_thumbnail(url = anime_dict['main_picture']['medium'])
 
                 embed_list.append(anime_embed)
-
-                # bot_response += (f"\n> {mal_link}\n"
-                #                  f"> **Genres**: {genres}\n"
-                #                  f"> **Number of episodes**: {anime_dict['num_episodes']}\n")
-                
         else:
             bot_response = (f"`I am sorry {user_name}, I wasn't able to find any" 
                             "animes to recommend for you. Please consider adding more ratings"
