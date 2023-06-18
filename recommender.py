@@ -133,10 +133,11 @@ class Recommender():
             merged_df = pd.concat([merged_df, anime_df])
 
         scaler = MinMaxScaler()
-        merged_df['scaled_similarity'] = scaler.fit_transform(merged_df[['similarity']])
+        merged_df['scaled_synopsis_similarity'] = scaler.fit_transform(merged_df[['synopsis_similarity']])
+        merged_df['scaled_genres_similarity'] = scaler.fit_transform(merged_df[['genres_similarity']])
         merged_df['scaled_rating'] = scaler.fit_transform(merged_df[['rating']])
         #Taking the average of the scaled similarity and score to establish final rank
-        merged_df['ranking'] = (merged_df['scaled_similarity'] + merged_df['scaled_rating']) / 2 
+        merged_df['ranking'] = ((1.5 * merged_df['scaled_genres_similarity']) + merged_df['scaled_similarity'] + merged_df['scaled_rating']) / 3.5 
         merged_df = merged_df.sort_values(by='ranking', ascending=False)
         merged_df = merged_df[~merged_df.index.duplicated(keep='first')]
 
