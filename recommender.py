@@ -1,9 +1,6 @@
 import requests
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-import joblib
-from pymongo import MongoClient
-import json
 
 
 class Recommender():

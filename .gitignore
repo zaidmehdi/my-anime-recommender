@@ -1,7 +1,2 @@
 __pycache__/
-df_animelist.csv
-discord_token.txt
-mal_token.json
-mongodb_server.txt
-synopsis_sim.pkl
-genres_sim.pkl
+tokens

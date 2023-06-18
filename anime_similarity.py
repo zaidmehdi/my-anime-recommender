@@ -5,8 +5,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 import joblib
 
 
-def create_df_animelist():
-    global animelist
+def create_df_animelist(mongodb_client):
+    dbname = mongodb_client['MAL']
+    animelist = dbname['animelist']
 
     response = animelist.find()
     id_list = []
