@@ -5,11 +5,13 @@ from sklearn.preprocessing import MinMaxScaler
 
 class Recommender():
 
-    def __init__(self, synopsis_sim, token, client, df_animelist) -> None:
+    def __init__(self, synopsis_sim, genres_sim, token, client, df_animelist) -> None:
         self.synopsis_sim = synopsis_sim
+        self.genres_sim = genres_sim
         self.token = token
         self.client = client
         self.df_animelist = df_animelist
+        self.indices = pd.Series(self.df_animelist.index, index=self.df_animelist['id']).drop_duplicates()
 
     def get_user_data(self, user_name):
         data_list = []
@@ -80,22 +82,18 @@ class Recommender():
         return favorite_list
     
     def find_similar_animes(self, favorite_list):
-        # global df_animelist
-        indices = pd.Series(self.df_animelist.index, index=self.df_animelist['id']).drop_duplicates()
-
         similar_animes = {}
+
         for anime in favorite_list:
-            idx = indices[anime]
-            sim_scores = list(self.synopsis_sim[idx])
-            anime_df = pd.DataFrame({'similarity': sim_scores})
-            anime_df = anime_df[anime_df.similarity >= 0.1] #keeping only similarities above 0.1
+            idx = self.indices[anime]
+            synopsis_sim_scores = list(self.synopsis_sim[idx])
+            genres_sim_scores =  list(self.genres_sim[idx])
+            anime_df = pd.DataFrame({'synopsis_similarity': synopsis_sim_scores, 'genres_sim_scores': genres_sim_scores})
             similar_animes[anime] = anime_df
 
         return similar_animes
     
     def filter_low_ratings(self, similar_animes):
-        # global df_animelist
-
         for anime in similar_animes:
             anime_df = similar_animes[anime]
             merged_df = pd.merge(anime_df, self.df_animelist['rating'], left_index=True, right_index=True)
@@ -105,7 +103,6 @@ class Recommender():
         return similar_animes
     
     def filter_already_inlist(self, similar_animes, user_name):
-        # global df_animelist
         dbname = self.client['MAL']
         user_data = dbname['userdata']
         response = user_data.find({'_id': user_name})
@@ -129,7 +126,6 @@ class Recommender():
         return filtered_animes
 
     def select_top_10(self, filtered_animes):
-        # global df_animelist
         merged_df = pd.DataFrame()
         
         for anime in filtered_animes:
