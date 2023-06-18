@@ -1,6 +1,7 @@
 import json
 import discord
 from pymongo import MongoClient
+from pymongo.server_api import ServerApi
 from recommender import Recommender
 from discord_bot import get_response, send_messages
 from anime_similarity import create_df_animelist, calculate_cosine_similarity
@@ -14,9 +15,9 @@ if __name__ == '__main__':
     mal_token = json.load(f)
 
     with open('tokens/mongodb_server.txt', 'r') as f:
-        CONNECTION_STRING = f.read()
+        url = f.read()
     
-    mongodb_client = MongoClient(CONNECTION_STRING)
+    mongodb_client = MongoClient(url, server_api=ServerApi('1'))
 
     df_animelist = create_df_animelist(mongodb_client)
     synopsis_sim = calculate_cosine_similarity(df_animelist, 'synopsis')
