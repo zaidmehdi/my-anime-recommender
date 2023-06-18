@@ -7,7 +7,6 @@ import joblib
 import pandas as pd
 
 
-
 if __name__ == '__main__':
     with open('discord_token.txt', 'r') as f:
         discord_token = f.read()
@@ -22,8 +21,9 @@ if __name__ == '__main__':
 
     df_animelist = pd.read_csv('df_animelist.csv')
     synopsis_sim = joblib.load('synopsis_sim.pkl')
+    genres_sim = joblib.load('genres_sim.pkl')
 
-    anime_recommender = Recommender(synopsis_sim, mal_token, mongodb_client, df_animelist)
+    anime_recommender = Recommender(synopsis_sim, genres_sim, mal_token, mongodb_client, df_animelist)
 
     intents = discord.Intents.default()
     intents.message_content = True
