@@ -1,27 +1,26 @@
-from recommender import Recommender
-import discord
-from discord_bot import get_response, send_messages
 import json
+import discord
 from pymongo import MongoClient
-import joblib
-import pandas as pd
+from recommender import Recommender
+from discord_bot import get_response, send_messages
+from anime_similarity import create_df_animelist, calculate_cosine_similarity
 
 
 if __name__ == '__main__':
-    with open('discord_token.txt', 'r') as f:
+    with open('tokens/discord_token.txt', 'r') as f:
         discord_token = f.read()
 
-    f = open('mal_token.json')
+    f = open('tokens/mal_token.json')
     mal_token = json.load(f)
 
-    with open('mongodb_server.txt', 'r') as f:
+    with open('tokens/mongodb_server.txt', 'r') as f:
         CONNECTION_STRING = f.read()
     
     mongodb_client = MongoClient(CONNECTION_STRING)
 
-    df_animelist = pd.read_csv('df_animelist.csv')
-    synopsis_sim = joblib.load('synopsis_sim.pkl')
-    genres_sim = joblib.load('genres_sim.pkl')
+    df_animelist = create_df_animelist(mongodb_client)
+    synopsis_sim = calculate_cosine_similarity(df_animelist, 'synopsis')
+    genres_sim = calculate_cosine_similarity(df_animelist, 'genres')
 
     anime_recommender = Recommender(synopsis_sim, genres_sim, mal_token, mongodb_client, df_animelist)
 
