@@ -75,14 +75,9 @@ class Recommender():
         return user_df
 
     def get_user_favorite(self, user_df):
-        max_score = user_df.score.max()
-
-        if max_score >= 7:
-            aux = user_df.loc[user_df['score'] == max_score]
-            favorite_list = list(aux['anime_id'].values)
-            del aux
-        else:
-            favorite_list = False
+        threshold = 8
+        aux = user_df.loc[user_df['score'] >= threshold]
+        favorite_list = list(aux['anime_id'].values)
 
         return favorite_list
     
@@ -102,10 +97,11 @@ class Recommender():
         return similar_animes
     
     def filter_low_ratings(self, similar_animes):
+        threshold = 7
         for anime in similar_animes:
             anime_df = similar_animes[anime]
             merged_df = pd.merge(anime_df, self.df_animelist['rating'], left_index=True, right_index=True)
-            merged_df = merged_df[merged_df.rating >= 7]
+            merged_df = merged_df[merged_df.rating >= threshold]
             similar_animes[anime] = merged_df
 
         return similar_animes
@@ -145,7 +141,7 @@ class Recommender():
         merged_df['scaled_genres_similarity'] = scaler.fit_transform(merged_df[['genres_similarity']])
         merged_df['scaled_rating'] = scaler.fit_transform(merged_df[['rating']])
         #Taking the average of the scaled similarity and score to establish final rank
-        merged_df['ranking'] = ((1.5 * merged_df['scaled_genres_similarity']) + merged_df['scaled_synopsis_similarity'] + merged_df['scaled_rating']) / 3.5 
+        merged_df['ranking'] = ((2 * merged_df['scaled_genres_similarity']) + (2 * merged_df['scaled_rating']) + (0.5 * merged_df['scaled_synopsis_similarity'])) / 4.5 
         merged_df = merged_df.sort_values(by='ranking', ascending=False)
         merged_df = merged_df[~merged_df.index.duplicated(keep='first')]
 
