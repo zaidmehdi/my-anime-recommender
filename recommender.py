@@ -52,7 +52,9 @@ class Recommender():
         #check if user id exists or not to know if update or insert
         dbname = self.client['MAL']
         user_data = dbname['userdata']
-        if user_data.count_documents({'_id':user_name}) > 0:
+        if not user_dict['data']:
+            pass
+        elif user_data.count_documents({'_id':user_name}) > 0:
             user_data.replace_one({'_id':user_name}, user_dict)
         else:
             user_data.insert_one(user_dict)
