@@ -1,8 +1,6 @@
-from pymongo import MongoClient
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import joblib
 
 
 def create_df_animelist(mongodb_client):
@@ -40,23 +38,3 @@ def calculate_cosine_similarity(df_animelist, column_name: str):
     cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
     return cosine_sim
-
-
-if __name__ == "__main__":
-
-    with open('mongodb_server.txt', 'r') as f:
-        CONNECTION_STRING = f.read()
-    client = MongoClient(CONNECTION_STRING)
-    dbname = client['MAL']
-    animelist = dbname['animelist']
-
-    df_animelist = create_df_animelist()
-    synopsis_sim = calculate_cosine_similarity(df_animelist, 'synopsis')
-    genres_sim = calculate_cosine_similarity(df_animelist, 'genres')
-
-    df_animelist.to_csv('df_animelist.csv', index=False)
-    joblib.dump(synopsis_sim, 'synopsis_sim.pkl')
-    joblib.dump(genres_sim, 'genres_sim.pkl')
-
-
-
