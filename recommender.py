@@ -181,22 +181,3 @@ class Recommender():
             rec_data.insert_one(rec_dict)
             
         return top_animes_id
-    
-
-
-if __name__ == '__main__':
-    f = open('mal_token.json')
-    mal_token = json.load(f)
-
-    with open('mongodb_server.txt', 'r') as f:
-        CONNECTION_STRING = f.read()
-    
-    mongodb_client = MongoClient(CONNECTION_STRING)
-    df_animelist = pd.read_csv('df_animelist.csv')
-    synopsis_sim = joblib.load('synopsis_sim.pkl')
-    genres_sim = joblib.load('genres_sim.pkl')
-
-    anime_recommender = Recommender(synopsis_sim, genres_sim, mal_token, mongodb_client, df_animelist )
-    user_name = 'herrrolii'
-    recommendations = anime_recommender.recommend(user_name)
-    print(f'Recommendations: {recommendations}')

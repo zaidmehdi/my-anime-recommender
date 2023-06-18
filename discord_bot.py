@@ -4,20 +4,21 @@ def get_response(user_message : str, anime_recommender, mongodb_client):
     dbname = mongodb_client['MAL']
     anime_data = dbname['animelist']
     p_message = user_message.lower()
+    embed_list = []
 
     if p_message[:4] == '!rec':
         user_name = p_message[5:]
         try:
             recommendations = anime_recommender.recommend(user_name)
-        except Exception:
-            return (f"`I didn't find any user called '{user_name}' on MAL.\n" 
-        "Can you double check the spelling and make sure to write: '!rec <user_name>'?`")
+        except Exception as e:
+            print(f'Exception: {e}')
+            return (f"`There was a problem with your request.\n" 
+        "Can you double check the spelling and make sure to write: '!rec <user_name>'?`"), embed_list
         
         if len(recommendations) > 0:
             bot_response = (f"# Hello *{user_name}* !\n## Here are my top anime "
                             "recommendations for you based on your favorite animes:\n")
             
-            embed_list = []
             for i, anime_id in enumerate(recommendations):
                 response = anime_data.find({"_id": anime_id})
                 for element in response:
@@ -48,7 +49,7 @@ def get_response(user_message : str, anime_recommender, mongodb_client):
         return bot_response, embed_list
     
     if p_message == '!test':
-        return 'Your test is working'
+        return 'Your test is working', embed_list
 
 async def send_messages(message, bot_response, embed_list, is_private):
     try:
