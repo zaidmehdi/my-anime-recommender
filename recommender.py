@@ -1,6 +1,9 @@
 import requests
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+import joblib
+from pymongo import MongoClient
+import json
 
 
 class Recommender():
@@ -85,11 +88,14 @@ class Recommender():
         similar_animes = {}
 
         for anime in favorite_list:
-            idx = self.indices[anime]
-            synopsis_sim_scores = list(self.synopsis_sim[idx])
-            genres_sim_scores =  list(self.genres_sim[idx])
-            anime_df = pd.DataFrame({'synopsis_similarity': synopsis_sim_scores, 'genres_sim_scores': genres_sim_scores})
-            similar_animes[anime] = anime_df
+            try:
+                idx = self.indices[anime]
+                synopsis_sim_scores = list(self.synopsis_sim[idx])
+                genres_sim_scores =  list(self.genres_sim[idx])
+                anime_df = pd.DataFrame({'synopsis_similarity': synopsis_sim_scores, 'genres_similarity': genres_sim_scores})
+                similar_animes[anime] = anime_df
+            except Exception as e:
+                print(e)
 
         return similar_animes
     
@@ -137,7 +143,7 @@ class Recommender():
         merged_df['scaled_genres_similarity'] = scaler.fit_transform(merged_df[['genres_similarity']])
         merged_df['scaled_rating'] = scaler.fit_transform(merged_df[['rating']])
         #Taking the average of the scaled similarity and score to establish final rank
-        merged_df['ranking'] = ((1.5 * merged_df['scaled_genres_similarity']) + merged_df['scaled_similarity'] + merged_df['scaled_rating']) / 3.5 
+        merged_df['ranking'] = ((1.5 * merged_df['scaled_genres_similarity']) + merged_df['scaled_synopsis_similarity'] + merged_df['scaled_rating']) / 3.5 
         merged_df = merged_df.sort_values(by='ranking', ascending=False)
         merged_df = merged_df[~merged_df.index.duplicated(keep='first')]
 
@@ -175,3 +181,22 @@ class Recommender():
             rec_data.insert_one(rec_dict)
             
         return top_animes_id
+    
+
+
+if __name__ == '__main__':
+    f = open('mal_token.json')
+    mal_token = json.load(f)
+
+    with open('mongodb_server.txt', 'r') as f:
+        CONNECTION_STRING = f.read()
+    
+    mongodb_client = MongoClient(CONNECTION_STRING)
+    df_animelist = pd.read_csv('df_animelist.csv')
+    synopsis_sim = joblib.load('synopsis_sim.pkl')
+    genres_sim = joblib.load('genres_sim.pkl')
+
+    anime_recommender = Recommender(synopsis_sim, genres_sim, mal_token, mongodb_client, df_animelist )
+    user_name = 'herrrolii'
+    recommendations = anime_recommender.recommend(user_name)
+    print(f'Recommendations: {recommendations}')
