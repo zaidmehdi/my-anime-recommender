@@ -138,7 +138,7 @@ class Recommender():
         merged_df['scaled_genres_similarity'] = scaler.fit_transform(merged_df[['genres_similarity']])
         merged_df['scaled_rating'] = scaler.fit_transform(merged_df[['rating']])
         #Taking the average of the scaled similarity and score to establish final rank
-        merged_df['ranking'] = ((2 * merged_df['scaled_genres_similarity']) + (2 * merged_df['scaled_rating']) + (0.5 * merged_df['scaled_synopsis_similarity'])) / 4.5 
+        merged_df['ranking'] = ((2 * merged_df['scaled_genres_similarity']) + (1.25 * merged_df['scaled_rating']) + (0.5 * merged_df['scaled_synopsis_similarity'])) / 3.75 
         merged_df = merged_df.sort_values(by='ranking', ascending=False)
         merged_df = merged_df[~merged_df.index.duplicated(keep='first')]
 
