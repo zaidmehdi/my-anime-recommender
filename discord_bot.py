@@ -1,4 +1,5 @@
 import discord
+import traceback
 
 def get_response(user_message : str, anime_recommender, mongodb_client):
     dbname = mongodb_client['MAL']
@@ -7,16 +8,18 @@ def get_response(user_message : str, anime_recommender, mongodb_client):
     embed_list = []
 
     if p_message[:4] == '!rec':
-        user_name = p_message[5:]
+        user_name_list = str(p_message[5:]).split()
         try:
-            recommendations = anime_recommender.recommend(user_name)
+            recommendations = anime_recommender.recommend(user_name_list)
+            print(f'length recommendations: {recommendations}')
         except Exception as e:
             print(f'Exception: {e}')
+            print(traceback.format_exc())
             return (f"`There was a problem with your request.\n" 
         "Can you double check the spelling and make sure to write: '!rec <user_name>'?`"), embed_list
         
         if len(recommendations) > 0:
-            bot_response = (f"# Hello *{user_name}* !\n## Here are my top anime "
+            bot_response = (f"# Hello *{user_name_list}* !\n## Here are my top anime "
                             "recommendations for you based on your favorite animes:\n")
             
             for i, anime_id in enumerate(recommendations):
@@ -42,7 +45,7 @@ def get_response(user_message : str, anime_recommender, mongodb_client):
 
                 embed_list.append(anime_embed)
         else:
-            bot_response = (f"`I am sorry {user_name}, I wasn't able to find any" 
+            bot_response = (f"`I am sorry {user_name_list}, I wasn't able to find any" 
                             "animes to recommend for you. Please consider adding more ratings"
                             "to your MAL profile`")
 
