@@ -19,7 +19,7 @@ def get_response(user_message : str, anime_recommender, mongodb_client):
         "Can you double check the spelling and make sure to write: '!rec <user_name>'?`"), embed_list
         
         if len(recommendations) > 0:
-            bot_response = (f"# Hello *{user_name_list}* !\n## Here are my top anime "
+            bot_response = (f"# Hello *{', '.join(user_name_list)}* !\n## Here are my top anime "
                             "recommendations for you based on your favorite animes:\n")
             
             for i, anime_id in enumerate(recommendations):
@@ -45,7 +45,7 @@ def get_response(user_message : str, anime_recommender, mongodb_client):
 
                 embed_list.append(anime_embed)
         else:
-            bot_response = (f"`I am sorry {user_name_list}, I wasn't able to find any" 
+            bot_response = (f"`I am sorry {', '.join(user_name_list)}, I wasn't able to find any" 
                             "animes to recommend for you. Please consider adding more ratings"
                             "to your MAL profile`")
 
