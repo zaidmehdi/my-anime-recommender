@@ -35,21 +35,24 @@ if __name__ == '__main__':
 
     @client.event
     async def on_message(message):
-        if message.author == client.user:
-            pass
-        
-        username = str(message.author)
-        user_message = str(message.content)
-        channel = str(message.channel)
+        try:
+            if message.author == client.user:
+                pass
+            
+            username = str(message.author)
+            user_message = str(message.content)
+            channel = str(message.channel)
 
-        print(f'{username} said: "{user_message}" ({channel})') 
+            print(f'{username} said: "{user_message}" ({channel})') 
 
-        if user_message[0] == 'p':
-            user_message = user_message[1:]
-            bot_response, embed_list = get_response(user_message, anime_recommender, mongodb_client)
-            await send_messages(message, bot_response, embed_list, is_private=True)
-        else:
-            bot_response, embed_list = get_response(user_message, anime_recommender, mongodb_client)
-            await send_messages(message, bot_response, embed_list, False)
+            if user_message[0] == 'p':
+                user_message = user_message[1:]
+                bot_response, embed_list = get_response(user_message, anime_recommender, mongodb_client)
+                await send_messages(message, bot_response, embed_list, is_private=True)
+            else:
+                bot_response, embed_list = get_response(user_message, anime_recommender, mongodb_client)
+                await send_messages(message, bot_response, embed_list, False)
+        except TypeError as e:
+            print(e)
 
     client.run(discord_token)
