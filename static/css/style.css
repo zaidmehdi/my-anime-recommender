@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto; 
+  }
+  
+.background-image {
+background-image: url('../pics/luffyroger.jpg');
+background-size: cover;
+background-position: center;
+height: 100vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+color: white;
+}
+
+.title {
+font-size: 36px;
+margin-bottom: 20px;
+}
+
+.search-bar {
+width: 600px;
+height: 40px;
+border: none;
+border-radius: 20px;
+padding: 5px 15px;
+font-size: 16px;
+}
+  
+.section {
+    padding: 40px;
+    background-color: #f1f1f1;
+  }
+  
+.section-title {
+font-size: 24px;
+margin-bottom: 10px;
+align-items: center;
+text-align: center;
+}
+
+.section-content {
+display: flex;
+flex-direction: row;
+}
+
+.section-image {
+width: 300px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.section-text {
+font-size: 16px;
+flex: 1;
+max-width: 500px;
+margin-left: auto;
+margin-right: auto;
+}
