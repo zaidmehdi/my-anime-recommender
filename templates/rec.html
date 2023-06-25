@@ -1,9 +1,35 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Search Results</title>
-</head>
-<body>
- <h1> Test </h1>
-</body>
+
+  <head>
+    <title>MyAnimeRec - Recommendations</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+  </head>
+
+  <body>
+    <div class="navbar">
+      <form method="GET" action="{{ url_for('home') }}">
+        <button type="submit">Back</button>
+      </form>
+      <form method="post">
+        <input type="text" class="search-bar" name="search" placeholder="Enter one or more MyAnimeList usernames separated by whitespace...">
+        <button type="submit" style="display: none;"></button>
+      </form>
+    </div>
+
+    <h2> Hello {{ username }}. <br>
+      Based on your favorite animes, you might also like:
+    </h2>
+
+    <div class="card-container">
+      {% for anime in animes %}
+          <div class="card">
+              <img src="{{ anime.image }}" alt="{{ anime.title }}">
+              <p>{{ anime.title }}</p>
+          </div>
+      {% endfor %}
+    </div>
+    
+
+  </body>
 </html>

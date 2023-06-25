@@ -61,3 +61,31 @@ max-width: 500px;
 margin-left: auto;
 margin-right: auto;
 }
+
+.navbar {
+  background-color: #f2f2f2;
+  padding: 10px;
+}
+
+.navbar button {
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  display: inline-block;
+  width: 200px;
+  margin: 10px;
+  text-align: center;
+}
+
+.card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
