@@ -107,9 +107,7 @@ class Recommender():
         dbname = self.client['MAL']
         user_data = dbname['userdata']
         response = user_data.find({'_id': user_name})
-
-        for element in response:
-            user_dict = element
+        user_dict = next(response, None)
 
         already_inlist = []
         for anime in user_dict['data']:
@@ -185,8 +183,7 @@ class Recommender():
         for user_name in user_name_list:
             if rec_data.count_documents({'_id': user_name}) > 0:
                 response = rec_data.find({'_id': user_name})
-                for element in response:
-                    user_rec = element
+                user_rec = next(response, None)
                 recommendations = list(set(top_animes_id + user_rec['recommendations'])) 
                 rec_data.replace_one({'_id': user_name}, {'_id': user_name, 'recommendations': recommendations})
             else:
