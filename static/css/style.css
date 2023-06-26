@@ -106,3 +106,11 @@ margin-right: auto;
   object-fit: cover;
   border-radius: 50%;
 }
+
+.card-container {
+  max-width: 1300px; /* Adjust the maximum width as per your design */
+  margin: 0 auto; /* Center the card container horizontally */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
