@@ -58,9 +58,22 @@ def home():
     
     return render_template('index.html')
 
-@app.route('/rec')
+@app.route('/rec', methods=['GET', 'POST'])
 def rec_results():
     global mongodb_client
+    global anime_recommender
+
+    if request.method == 'POST':
+        search_term = request.form.get('search')
+        print(search_term)
+        user_name_list = str(search_term).split()
+        print(user_name_list)
+        try:
+            recommendations = anime_recommender.recommend(user_name_list)
+            session['recommendations'] = recommendations
+            return redirect(url_for('rec_results'))
+        except Exception as e:
+            print(f'Exception in home: {e}')
 
     if 'recommendations' in session:
         recommendations = session['recommendations']
@@ -68,10 +81,10 @@ def rec_results():
         for rec in recommendations:
             rec_dict = get_anime_info(int(float(rec)))
             rec_list.append(rec_dict)
-
         return render_template('rec.html', animes=rec_list)
     else:
         return redirect(url_for("home"))
+
 
 
 

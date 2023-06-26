@@ -11,7 +11,7 @@
       <form method="GET" action="{{ url_for('home') }}">
         <button type="submit">Home</button>
       </form>
-      <form method="post">
+      <form method="POST" action="{{ url_for('rec_results') }}">
         <input type="text" class="search-bar" name="search" placeholder="Enter one or more MyAnimeList usernames separated by whitespace...">
         <button type="submit" style="display: none;"></button>
       </form>
