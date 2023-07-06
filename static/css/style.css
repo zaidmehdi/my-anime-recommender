@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 body {
     margin: 0;
     padding: 0;
@@ -15,11 +17,27 @@ justify-content: center;
 align-items: center;
 text-align: center;
 color: white;
+filter: blur(4px);
+-webkit-filter: blur(4px);
+}
+
+.main-search{
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
 }
 
 .title {
 font-size: 36px;
 margin-bottom: 20px;
+font-family: 'Montserrat';
+margin-top: 20px;
 }
 
 .search-bar {
@@ -88,10 +106,6 @@ margin-right: auto;
   align-items: center;
 }
 
-.title {
-  font-size: 20px;
-  margin-top: 20px;
-}
 
 .card {
   display: inline-block;
@@ -108,9 +122,10 @@ margin-right: auto;
 }
 
 .card-container {
-  max-width: 1300px; /* Adjust the maximum width as per your design */
-  margin: 0 auto; /* Center the card container horizontally */
+  max-width: 1300px; 
+  margin: 0 auto; 
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
+
