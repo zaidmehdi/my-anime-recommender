@@ -52,6 +52,7 @@ def home():
         try:
             recommendations = anime_recommender.recommend(user_name_list)
             session['recommendations'] = recommendations
+            session['usernames'] = user_name_list
             return redirect(url_for('rec_results'))
         except Exception as e:
             print(f'Exception in home: {e}')
@@ -71,17 +72,19 @@ def rec_results():
         try:
             recommendations = anime_recommender.recommend(user_name_list)
             session['recommendations'] = recommendations
+            session['usernames'] = user_name_list
             return redirect(url_for('rec_results'))
         except Exception as e:
             print(f'Exception in home: {e}')
 
-    if 'recommendations' in session:
+    if 'recommendations' in session and 'usernames' in session:
         recommendations = session['recommendations']
+        usernames = ', '.join(session['usernames'])
         rec_list = []
         for rec in recommendations:
             rec_dict = get_anime_info(int(float(rec)))
             rec_list.append(rec_dict)
-        return render_template('rec.html', animes=rec_list)
+        return render_template('rec.html', animes=rec_list, usernames=usernames)
     else:
         return redirect(url_for("home"))
 
