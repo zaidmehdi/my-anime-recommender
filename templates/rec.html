@@ -4,12 +4,13 @@
   <head>
     <title>MyAnimeRec - Recommendations</title>
     <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   </head>
 
   <body>
     <div class="navbar">
       <form method="GET" action="{{ url_for('home') }}">
-        <button type="submit">Home</button>
+        <button type="submit"><i class="fas fa-home"></i></button>
       </form>
       <form method="POST" action="{{ url_for('rec_results') }}">
         <input type="text" class="search-bar" name="search" placeholder="Enter one or more MyAnimeList usernames separated by whitespace...">
