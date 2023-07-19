@@ -24,7 +24,7 @@
 
     <div class="card-container">
       {% for anime in animes %}
-          <a href="{{ anime.link }}" class="card">
+          <a href="{{ anime.link }}" class="card" target="_blank" rel="noopener noreferrer">
               <img src="{{ anime.picture }}" alt="{{ anime.title }}">
               <p>{{ anime.title }}</p>
               <div class="overlay">

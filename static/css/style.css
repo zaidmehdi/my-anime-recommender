@@ -73,9 +73,10 @@ align-items: center;
 }
 
 .section-image {
-width: 300px;
-margin-left: auto;
-margin-right: auto;
+  float: right;
+  margin-left: 20px;
+  max-width: 300px;
+  height: auto;
 }
 
 .section-text {
@@ -227,7 +228,76 @@ a {
   font-weight: normal;
 }
 
-.discord-logo {
+.logo {
   width: 30px; 
   margin-right: 10px;
+}
+
+.section-separator1 {
+  height: 250px;
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  ), url("../pics/luffy-smile.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: none;
+}
+
+.section-separator2 {
+  height: 250px;
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  ), url("../pics/luffy-smile.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border: none;
+}
+
+.section-separator3 {
+  height: 250px;
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  ), url("../pics/luffy-smile.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  border: none;
+}
+
+.github-button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 22px;
+  cursor: pointer;
+  width: 200px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.github-button:hover {
+  background-color: #1b7429;
+}
+
+.form-button{
+  padding: 10px 20px;
+  background-color: #673AB7;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 22px;
+  cursor: pointer;
+  width: 200px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #512DA8;
 }
