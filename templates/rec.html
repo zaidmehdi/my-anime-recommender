@@ -24,10 +24,14 @@
 
     <div class="card-container">
       {% for anime in animes %}
-          <div class="card">
+          <a href="{{ anime.link }}" class="card">
               <img src="{{ anime.picture }}" alt="{{ anime.title }}">
               <p>{{ anime.title }}</p>
-          </div>
+              <div class="overlay">
+                <p> Genres: {{ anime.genres }}</p>
+                <p>N° of episodes: {{ anime.num_episodes }}</p>
+              </div>
+          </a>
       {% endfor %}
     </div>
     

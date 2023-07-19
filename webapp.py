@@ -37,6 +37,15 @@ def get_anime_info(anime_id):
         anime_info['id'] = anime_id
         anime_info['title'] = anime_dict['title']
         anime_info['picture'] = anime_dict['main_picture']['medium']
+
+        link = f'https://myanimelist.net/anime/{anime_id}'
+        anime_info['link'] = link
+
+        genres = [genre['name'] for genre in anime_dict['genres']]
+        genres = ', '.join(genres)
+        anime_info['genres'] = genres
+
+        anime_info['num_episodes'] = anime_dict['num_episodes']
     else:
         print('There was an error')
 
