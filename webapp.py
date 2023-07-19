@@ -25,6 +25,9 @@ def setup_anime_recommender():
 
     return Recommender(synopsis_sim, genres_sim, mal_token, mongodb_client, df_animelist)
 
+mongodb_client = setup_mongodb_client()
+anime_recommender = setup_anime_recommender()
+
 def get_anime_info(anime_id):
     global mongodb_client
     dbname = mongodb_client['MAL']
@@ -66,7 +69,7 @@ def home():
         except Exception as e:
             print(f'Exception in home: {e}')
             return render_template('index.html', error = True)
-    
+
     return render_template('index.html', error = False)
 
 @app.route('/rec', methods=['GET', 'POST'])
@@ -84,7 +87,7 @@ def rec_results():
             session['recommendations'] = recommendations
             session['usernames'] = user_name_list
             return redirect(url_for('rec_results'))
-        except Exception as e:
+        except Exception:
             return render_template('rec.html', error=True, animes=None, usernames=None)
 
     if 'recommendations' in session and 'usernames' in session:
@@ -99,9 +102,5 @@ def rec_results():
         return redirect(url_for("home"))
 
 
-
-
 if __name__ == '__main__':
-    mongodb_client = setup_mongodb_client()
-    anime_recommender = setup_anime_recommender()
     app.run(debug=True)
