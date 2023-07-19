@@ -301,3 +301,26 @@ a {
 .form-button:hover {
   background-color: #512DA8;
 }
+
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #673AB7;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.scroll-to-top-button:hover {
+  background-color: #512DA8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
