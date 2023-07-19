@@ -20,6 +20,10 @@
         <input type="text" class="search-bar" name="search" placeholder="Enter one or more MyAnimeList usernames separated by whitespace...">
         <button type="submit" style="display: none;"></button>
       </form>
+      {%if error %}
+        <p class="error"> There was a problem with your request <br>
+        Can you double check the spelling of your username? </p>
+      {% endif %}
     </div>
 
   <section id="discord-bot" class="section">

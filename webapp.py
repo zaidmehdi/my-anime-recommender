@@ -65,8 +65,9 @@ def home():
             return redirect(url_for('rec_results'))
         except Exception as e:
             print(f'Exception in home: {e}')
+            return render_template('index.html', error = True)
     
-    return render_template('index.html')
+    return render_template('index.html', error = False)
 
 @app.route('/rec', methods=['GET', 'POST'])
 def rec_results():
@@ -84,7 +85,7 @@ def rec_results():
             session['usernames'] = user_name_list
             return redirect(url_for('rec_results'))
         except Exception as e:
-            print(f'Exception in home: {e}')
+            return render_template('rec.html', error=True, animes=None, usernames=None)
 
     if 'recommendations' in session and 'usernames' in session:
         recommendations = session['recommendations']
@@ -93,7 +94,7 @@ def rec_results():
         for rec in recommendations:
             rec_dict = get_anime_info(int(float(rec)))
             rec_list.append(rec_dict)
-        return render_template('rec.html', animes=rec_list, usernames=usernames)
+        return render_template('rec.html', error=False, animes=rec_list, usernames=usernames)
     else:
         return redirect(url_for("home"))
 

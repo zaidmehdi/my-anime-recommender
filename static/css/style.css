@@ -355,3 +355,8 @@ html {
   color: #666;
   background-color: #d6d6d6;
 }
+
+.error{
+  color: red;
+  text-align: center;
+}

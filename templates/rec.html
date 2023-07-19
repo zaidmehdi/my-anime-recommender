@@ -18,6 +18,11 @@
       </form>
     </div>
 
+    {%if error %}
+        <p class="error"> There was a problem with your request <br>
+        Can you double check the spelling of your username? </p>
+    {% else %}
+
     <h2> Hello {{ usernames }}! <br>
       Based on your favorite animes, you might also like:
     </h2>
@@ -34,7 +39,7 @@
           </a>
       {% endfor %}
     </div>
-    
+    {% endif %}
 
   </body>
 </html>
