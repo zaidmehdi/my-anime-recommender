@@ -4,10 +4,11 @@ from recommender import Recommender
 import json
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
+import secrets
 
 
 app = Flask(__name__)
-app.secret_key = 'test'
+app.secret_key = secrets.token_hex(16)
 
 def setup_mongodb_client():
     with open('tokens/mongodb_server.txt', 'r') as f:
