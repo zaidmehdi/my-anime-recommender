@@ -8,7 +8,10 @@ body {
   }
   
 .background-image {
-background-image: url('../pics/luffyroger.jpg');
+background-image: linear-gradient(
+  rgba(0, 0, 0, 0.5),
+  rgba(0, 0, 0, 0.5)
+), url('../pics/luffyroger.png');
 background-size: cover;
 background-position: center;
 height: 100vh;
@@ -18,8 +21,8 @@ justify-content: center;
 align-items: center;
 text-align: center;
 color: white;
-filter: blur(4px);
--webkit-filter: blur(4px);
+filter: blur(2px);
+-webkit-filter: blur(2px);
 }
 
 .main-search{
@@ -56,7 +59,7 @@ font-size: 16px;
   }
   
 .section-title {
-font-size: 24px;
+font-size: 30px;
 margin-bottom: 10px;
 align-items: center;
 text-align: center;
@@ -64,7 +67,9 @@ text-align: center;
 
 .section-content {
 display: flex;
-flex-direction: row;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 }
 
 .section-image {
@@ -79,6 +84,7 @@ flex: 1;
 max-width: 500px;
 margin-left: auto;
 margin-right: auto;
+text-align: center;
 }
 
 .navbar {
@@ -177,4 +183,51 @@ p{
 a {
   color: #000; 
   text-decoration: none;
+}
+
+.command-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.command-item {
+  margin-bottom: 5px;
+}
+
+.invite-button {
+  padding: 10px 20px;
+  background-color: #7289da;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 22px;
+  cursor: pointer;
+  width: 300px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.invite-button:hover {
+  background-color: #4a68c1;
+}
+
+.command-text {
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  display: inline-block;
+  background-color: #7289da;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+.explanation-text {
+  font-family: Arial, sans-serif;
+  font-weight: normal;
+}
+
+.discord-logo {
+  width: 30px; 
+  margin-right: 10px;
 }
