@@ -54,7 +54,7 @@ font-size: 16px;
 }
   
 .section {
-    padding: 40px;
+    padding: 20px;
     background-color: #f1f1f1;
   }
   
@@ -323,4 +323,35 @@ a {
 
 html {
   scroll-behavior: smooth;
+}
+
+.navbar-home {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f1f1f1;
+  padding: 10px 20px;
+  z-index: 100;
+  font-family: 'Montserrat';
+}
+
+.navbar-home.hidden{
+  top: -60px;
+}
+
+.nav-button-home {
+  margin-right: 10px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  padding: 8px 12px;
+  border-radius: 4px; 
+  background-color: #ebebeb; 
+}
+
+.nav-button:hover {
+  color: #666;
+  background-color: #d6d6d6;
 }
