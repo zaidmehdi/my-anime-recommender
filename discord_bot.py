@@ -51,8 +51,6 @@ def get_response(user_message : str, anime_recommender, mongodb_client):
 
         return bot_response, embed_list
     
-    if p_message == '!test':
-        return 'Your test is working', embed_list
 
 async def send_messages(message, bot_response, embed_list, is_private):
     try:
